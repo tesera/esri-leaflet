@@ -17,7 +17,6 @@ describe('L.esri.FeatureLayer', function () {
 
   var layer;
   var map = createMap();
-
   var features = [{
     type: 'Feature',
     id: 1,
@@ -122,32 +121,21 @@ describe('L.esri.FeatureLayer', function () {
   });
 
   it('should have an alias at L.esri.featureLayer', function(){
-    // var layer = L.esri.featureLayer({
-    //   url: 'http://gis.example.com/mock/arcgis/rest/services/MockService/MockFeatureServer/0'
-    // });
-    // layer.createLayers(features);
-
     expect(layer).to.be.an.instanceof(L.esri.FeatureLayer);
   });
 
   it('should create features on a map', function(){
-    // layer.createLayers(features);
-
     expect(map.hasLayer(layer.getFeature(1))).to.equal(true);
     expect(map.hasLayer(layer.getFeature(2))).to.equal(true);
   });
 
   it('should remove features on a map', function(){
-    // layer.createLayers(features);
-
     layer.removeLayers([1]);
     expect(map.hasLayer(layer.getFeature(1))).to.equal(false);
     expect(map.hasLayer(layer.getFeature(2))).to.equal(true);
   });
 
   it('should fire a removefeature event', function(){
-    // layer.createLayers(features);
-
     layer.on('removefeature', function(e){
       expect(e.feature.id).to.equal(1);
     });
@@ -155,8 +143,6 @@ describe('L.esri.FeatureLayer', function () {
   });
 
   it('should fire a removefeature event when the featureLayer is removed from the map', function(done){
-    // layer.createLayers(features);
-
     layer.on('removefeature', function(e){
       expect(e.feature.id).to.equal(1);
       done();
@@ -166,8 +152,6 @@ describe('L.esri.FeatureLayer', function () {
   });
 
   it('should add features back to a map', function(){
-    // layer.createLayers(features);
-
     layer.removeLayers([1]);
     layer.addLayers([1]);
     expect(map.hasLayer(layer.getFeature(1))).to.equal(true);
@@ -175,8 +159,6 @@ describe('L.esri.FeatureLayer', function () {
   });
 
   it('should fire a addfeature event', function(){
-    // layer.createLayers(features);
-
     layer.on('addfeature', function(e){
       expect(e.feature.id).to.equal(1);
     });
@@ -185,15 +167,6 @@ describe('L.esri.FeatureLayer', function () {
   });
 
   it('should fire an addfeature event when a featureLayer is readded to the map', function(done){
-    // layer = L.esri.featureLayer({
-    //   url: 'http://gis.example.com/mock/arcgis/rest/services/MockService/MockFeatureServer/0',
-    //   timeField: 'time',
-    //   pointToLayer: function(feature, latlng){
-    //     return L.circleMarker(latlng);
-    //   }
-    // }).addTo(map);
-
-    // layer.createLayers(features);
     map.removeLayer(layer);
 
     layer.on('addfeature', function(e){
@@ -207,9 +180,6 @@ describe('L.esri.FeatureLayer', function () {
 
   it('should not add features outside the time range', function(){
     layer.setTimeRange(new Date('January 1 2014 GMT-0800'), new Date('Febuary 1 2014 GMT-0800'));
-
-    // layer.createLayers(features);
-
     layer.createLayers([{
       type: 'Feature',
       id: 3,

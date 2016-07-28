@@ -887,7 +887,7 @@ describe('L.esri.FeatureManager', function () {
     }));
 
     layer._requestFeatures(bounds, point, function(){return;});
-    
+
     server.respondWith('GET', new RegExp(/.*/), JSON.stringify({
       fields: fields
     }));
@@ -907,9 +907,5 @@ describe('L.esri.FeatureManager', function () {
 
     expect(layer._activeRequests).to.equal(0);
     expect(triggered).to.be.true;
-
   })
-
-  
-
 });

@@ -1,4 +1,7 @@
 describe('L.esri.ImageMapLayer', function () {
+  // speed up errors
+  this.timeout(500);
+  
   function createMap(){
     // create container
     var container = document.createElement('div');

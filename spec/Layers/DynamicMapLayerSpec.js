@@ -1,4 +1,7 @@
 describe('L.esri.DynamicMapLayer', function () {
+  // speed up errors
+  this.timeout(500);
+
   function createMap(){
     // create container
     var container = document.createElement('div');
@@ -51,14 +54,16 @@ describe('L.esri.DynamicMapLayer', function () {
   };
 
   beforeEach(function(){
-    clock = sinon.useFakeTimers();
-    server = sinon.fakeServer.create();
-    server.respondWith('GET',new RegExp(/http:\/\/services.arcgis.com\/mock\/arcgis\/rest\/services\/MockMapService\/MapServer\/export\?bbox=-?\d+\.\d+%2C-?\d+\.\d+%2C-?\d+\.\d+%2C-?\d+\.\d+&size=500%2C500&dpi=96&format=png24&transparent=true&bboxSR=3857&imageSR=3857&f=json/), JSON.stringify({
-      href: Image1
-    }));
     layer = L.esri.dynamicMapLayer({
       url: url
     });
+
+    clock = sinon.useFakeTimers();
+    server = sinon.fakeServer.create();
+    server.respondWith('GET',new RegExp(/http:\/\/services.arcgis.com\/mock\/arcgis\/rest\/services\/MockMapService\/MapServer\/export\?bbox=-?\d+\.\d+999%2C-?\d+\.\d+%2C-?\d+\.\d+%2C-?\d+\.\d+&size=500%2C500&dpi=96&format=png24&transparent=true&bboxSR=3857&imageSR=3857&f=json/), JSON.stringify({
+      href: Image1
+    }));
+
     map = createMap();
   });
 
@@ -74,28 +79,39 @@ describe('L.esri.DynamicMapLayer', function () {
     })).to.be.instanceof(L.esri.DynamicMapLayer);
   });
 
- it('should display an attribution if one was passed', function(){
+ it('should display attribution if it was passed', function(){
     L.esri.dynamicMapLayer({
       url: url,
-      attribution: 'Esri'
+      attribution: 'Ezree'
     }).addTo(map);
 
-    expect(map.attributionControl._container.innerHTML).to.contain('Esri');
+    expect(map.attributionControl._container.innerHTML).to.contain('Ezree');
  });
 
   it('will fire a loading event when it starts loading', function(done){
+    layer.addTo(map);
     layer.on('loading', function(e){
       expect(e.type).to.equal('loading');
       done();
     });
-    layer.addTo(map);
-    server.respond();
+
+    // server.respond();
+    server.respondWith('GET',new RegExp(/http:\/\/services.arcgis.com\/mock\/arcgis\/rest\/services\/MockMapService\/MapServer\/export\?bbox=-?\d+\.\d+999%2C-?\d+\.\d+%2C-?\d+\.\d+%2C-?\d+\.\d+&size=500%2C500&dpi=96&format=png24&transparent=true&bboxSR=3857&imageSR=3857&f=json/), JSON.stringify({
+      href: Image1
+    }));
+
+    // done();
   });
 
   it('will fire a load event when it completes loading', function(done){
     layer.on('load', function(e){
-      expect(e.type).to.equal('load');
-      done();
+      try {
+        expect(e.type).to.equal('load');
+        done();
+      } catch (x) {
+        console.log('caught');
+        done(x);
+      }
     });
     layer.addTo(map);
     server.respond();

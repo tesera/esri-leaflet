@@ -20,23 +20,19 @@ module.exports = function (config) {
       'dist/esri-leaflet-debug.js',
 
       // all
-      //'spec/**/*Spec.js',
-
-      // 'spec/Layers/FeatureLayer/FeatureLayerSpec.js'
-      // 'spec/Layers/*Spec.js',
-      // 'spec/Layers/FeatureLayer/*Spec.js'
-      // 'spec/Services/*Spec.js'
+      // 'spec/**/*Spec.js'
+      // 'spec/Layers/DynamicMapLayerSpec.js'
 
       // good
-      'spec/Tasks/*Spec.js',
       'spec/*Spec.js',
-      'spec/Layers/FeatureLayer/FeatureManagerSpec.js',
-      'spec/Layers/FeatureLayer/FeatureLayerSpec.js'
+      'spec/Services/*Spec.js',
+      'spec/Tasks/*Spec.js',
+      'spec/Layers/**/*Spec.js'
+
     ],
 
     // list of files to exclude
     exclude: [
-      'spec/Layers/DynamicMapLayerSpec.js',
       'spec/Layers/ImageMapLayerSpec.js'
     ],
 
@@ -59,7 +55,7 @@ module.exports = function (config) {
 
     // level of logging
     // possible values: config.LOG_DISABLE || config.LOG_ERROR || config.LOG_WARN || config.LOG_INFO || config.LOG_DEBUG
-    logLevel: config.LOG_DISABLE,
+    logLevel: config.LOG_ERROR,
 
     // enable / disable watching file and executing tests whenever any file changes
     autoWatch: true,
@@ -76,7 +72,11 @@ module.exports = function (config) {
 
     // Continuous Integration mode
     // if true, Karma captures browsers, runs the tests and exits
-    singleRun: true,
+    singleRun: true
+
+    // speed up things being broken
+    // browserDisconnectTimeout: 10000,
+    // captureTimeout: 750
 
     // Configure the coverage reporters
     // coverageReporter: {
