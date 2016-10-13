@@ -211,14 +211,14 @@ export var Query = Task.extend({
     }
 
     // confirm that our GeoJSON is a point, line or polygon
-    if (geometry.type === 'Point' || geometry.type === 'LineString' || geometry.type === 'Polygon' || geometry.type === 'MultiPolygon' ) {
+    if (geometry.type === 'Point' || geometry.type === 'LineString' || geometry.type === 'Polygon' || geometry.type === 'MultiPolygon') {
       this.params.geometry = Util.geojsonToArcGIS(geometry);
       this.params.geometryType = Util.geojsonTypeToArcGIS(geometry.type);
       return;
     }
 
     // warn the user if we havn't found an appropriate object
-    Util.warn('invalid geometry passed to spatial query. Should be an L.LatLng, L.LatLngBounds or L.Marker or a GeoJSON Point Line or Polygon object');
+    Util.warn('invalid geometry passed to spatial query. Should be a L.LatLng, L.LatLngBounds, L.Marker, or GeoJSON Point, Line, Polygon, or MultiPolygon object');
 
     return;
   }
